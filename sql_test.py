@@ -4,10 +4,11 @@ import datetime
 connection = sqlite3.connect("top_movie.sqlite")
 cursor = connection.cursor()
 name = "\"The Shawshank Redemption_1994\""
-query = "Select Date, Star From movie order by Date"
+query = "Select Date, Budget, USA_Gross From movie"
 print(query)
 
 result = cursor.execute(query).fetchall()
+print(result[0])
 print(result[0][0].split()[0])
 print(datetime.datetime.strptime(result[0][0].split()[0], '%Y-%m-%d'))
 # d = {}
