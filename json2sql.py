@@ -9,8 +9,9 @@ def create_table(conn):
 
     create_movie = '''
     CREATE TABLE IF NOT EXISTS "movie" (
-        "MovieID"        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        "ID"        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         "Movie"     TEXT NOT NULL,
+        "MovieID"   INTEGER,
         "Genre"     TEXT NOT NULL,
         "Country"   TEXT NOT NULL,
         "Star"      FLOAT NOT NULL,
@@ -23,21 +24,24 @@ def create_table(conn):
     '''
     create_cast = '''
     CREATE TABLE IF NOT EXISTS "cast" (
-        "Cast"      TEXT NOT NULL,
+        "ID"        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        "Casts"      TEXT NOT NULL,
         "MovieID"     INTEGER,
         FOREIGN KEY (MovieID) REFERENCES movie(MovieID)
         );
     '''
     create_director = '''
     CREATE TABLE IF NOT EXISTS "director" (
-        "Director"      TEXT NOT NULL,
+        "ID"        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        "Directors"      TEXT NOT NULL,
         "MovieID"     INTEGER,
         FOREIGN KEY (MovieID) REFERENCES movie(MovieID)
         );
     '''
     create_writer = '''
     CREATE TABLE IF NOT EXISTS "writer" (
-        "Writer"      TEXT NOT NULL,
+        "ID"        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        "Writers"      TEXT NOT NULL,
         "MovieID"     INTEGER,
         FOREIGN KEY (MovieID) REFERENCES movie(MovieID)
         );
@@ -88,7 +92,7 @@ def insert_data(data, conn):
 
         insert_movies = '''
         INSERT INTO movie
-        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
         '''
         name = d['name']
         country = d['country']
@@ -103,7 +107,7 @@ def insert_data(data, conn):
         budget = money_exchange(d['box']['budget'])
         us = money_exchange(d['box']['usa'])
         world = money_exchange(d['box']['world'])
-        movie_ls = [name, genre, country, star,
+        movie_ls = [name, i+1, genre, country, star,
                     language, dt, budget, us, world]
         cur.execute(insert_movies, movie_ls)
         conn.commit()
@@ -111,7 +115,7 @@ def insert_data(data, conn):
         for director in d['directors']:
             insert_director = '''
             INSERT INTO director
-            VALUES (?, ?)
+            VALUES (NULL, ?, ?)
             '''
             director_ls = [director, i+1]
             cur.execute(insert_director, director_ls)
@@ -120,7 +124,7 @@ def insert_data(data, conn):
         for writer in d['writers']:
             insert_writer = '''
             INSERT INTO writer
-            VALUES (?, ?)
+            VALUES (NULL, ?, ?)
             '''
             writer_ls = [writer, i+1]
             cur.execute(insert_writer, writer_ls)
@@ -129,7 +133,7 @@ def insert_data(data, conn):
         for cast in d['casts']:
             insert_cast = '''
             INSERT INTO cast
-            VALUES (?, ?)
+            VALUES (NULL,?, ?)
             '''
             cast_ls = [cast, i+1]
             cur.execute(insert_cast, cast_ls)
