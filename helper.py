@@ -1,4 +1,10 @@
 import sqlite3
+import plotly
+import plotly.graph_objs as go
+
+import pandas as pd
+import numpy as np
+import json
 
 
 class Element():
@@ -23,3 +29,33 @@ def element_wraper(c, d, w):
         writer = " " if i >= len(w) else w[i]
         ls.append(Element(director, writer, c[i]))
     return ls
+
+
+def create_plot(x, y, func):
+    df = pd.DataFrame({'x': x, 'y': y})  # creating a sample dataframe
+
+    if func == go.Pie:
+        data = [
+            func(
+                labels=df['x'],  # assign x as the dataframe column 'x'
+                values=df['y']
+            )
+        ]
+    elif func == go.Bar:
+        data = [
+            func(
+                x=df['x'],  # assign x as the dataframe column 'x'
+                y=df['y']
+            )
+        ]
+    elif func == go.Scatter or go.Line:
+        data = [
+            func(
+                x=df['x'],  # assign x as the dataframe column 'x'
+                y=df['y'],
+                mode='markers' if func == go.Scatter else None
+            )
+        ]
+    graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return graphJSON

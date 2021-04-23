@@ -7,8 +7,8 @@
 <form name="rating_name" method="POST">
     <select name="rating_name">
         <option value="table">Table</option>
-        <option value="star">The relationship between average stars and genres</option>
-        <option value="time">The relationship between the average rating of the movies with time</option>    
+        <option value="star">The relationship between numbers of movies and genres</option>
+        <option value="time">The relationship between the rating of the movies with time</option>    
     </select>
     <button type="submit">Select!</button>
 </form>
@@ -44,7 +44,46 @@ table, th, td {
 {% endfor%}
 
 
+
+{%elif type == "star"%}
+<h3> Please select a type of chart</h3>
+
+<form name="chart_type" method="POST">
+    <select name="chart_type">
+        <option value="bar">Bar</option>
+        <option value="pie">Pie</option>
+    </select>
+    <button type="submit">Select!</button>
+</form>
+
+<div class="chart" id="bargraph">
+    <script>
+        var graphs = {{plot | safe}};
+        Plotly.plot('bargraph',graphs,{});
+    </script>
+</div>
+
+{%elif type == "time"%}
+<h3> Please select a type of chart</h3>
+
+<form name="chart_type" method="POST">
+    <select name="chart_type">
+        <option value="scatter">Scatter</option>
+        <option value="line">Line</option>
+    </select>
+    <button type="submit">Select!</button>
+</form>
+
+<div class="chart" id="bargraph">
+    <script>
+        var graphs = {{plot | safe}};
+        Plotly.plot('bargraph',graphs,{});
+    </script>
+</div>
+
 {%endif%}
+
 {%endif%}
 
 {% endblock %}
+
