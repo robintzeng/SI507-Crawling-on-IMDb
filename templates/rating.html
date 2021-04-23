@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Rating{% endblock %}
+
+
+{% block content %}
+<h3>Which attribute of rating are you interested in ? </h3>
+<form name="rating_name" method="POST">
+    <select name="rating_name">
+        <option value="table">Table</option>
+        <option value="star">The relationship between average stars and genres</option>
+        <option value="time">The relationship between the average rating of the movies with time</option>    
+    </select>
+    <button type="submit">Select!</button>
+</form>
+
+{%if show == True%}
+{%if type == "table"%}
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Star</th>
+    <th>Date</th>
+  </tr>
+
+{% for e in element %} 
+<tr>
+<td> 
+<p>{{e.c}}</p>
+</td>
+<td> 
+<p>{{e.d}}</p>
+</td>
+<td> 
+<p>{{e.w}}</p>
+</td>
+</tr>
+{% endfor%}
+
+
+{%endif%}
+{%endif%}
+
+{% endblock %}

@@ -1,31 +1,8 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 from datetime import timedelta
+from helper import *
 import sqlite3
 app = Flask(__name__)
-
-
-class Element():
-    def __init__(self, director, writer, cast):
-        self.d = director
-        self.w = writer
-        self.c = cast
-
-
-def query_sql(query):
-    connection = sqlite3.connect("top_movie.sqlite")
-    cursor = connection.cursor()
-    result = cursor.execute(query).fetchall()
-    connection.close()
-    return result
-
-
-def element_wraper(c, d, w):
-    ls = []
-    for i in range(len(c)):
-        director = " " if i >= len(d) else d[i]
-        writer = " " if i >= len(w) else w[i]
-        ls.append(Element(director, writer, c[i]))
-    return ls
 
 
 @app.route("/")
@@ -62,6 +39,22 @@ def movie():
     return render_template("movie.html", name=nm, table=False)
 
 
-if __name__ == "__main__":
+@app.route("/rating", methods=["POST", "GET"])
+def rating():
+    if request.method == "POST":
+        select = request.form.get('rating_name')
+        if select is not None:
+            q = "select movie, Star, Date from movie M"
+            ret = query_sql(q)
+            movie_name = [i[0] for i in ret]
+            star = [i[1] for i in ret]
+            date = [i[2].split()[0] for i in ret]
+            e = element_wraper(movie_name, star, date)
+            return render_template(
+                "rating.html", element=e, type="table", show=True)
 
+    return render_template("rating.html", show=False)
+
+
+if __name__ == "__main__":
     app.run(debug=True)
