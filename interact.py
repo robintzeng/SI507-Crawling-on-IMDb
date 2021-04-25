@@ -1,10 +1,8 @@
-from flask import Flask, redirect, url_for, render_template, request, session
-from datetime import timedelta, datetime
-
-from numpy.lib.function_base import append
+from flask import Flask, render_template, request
+from datetime import datetime
 import plotly.graph_objs as go
 from helper import *
-import sqlite3
+
 
 rating_select = None
 box_select = None
@@ -72,23 +70,23 @@ def rating():
                 if request.method == "POST":
                     chart = request.form.get('chart_type')
                     q = "select Genre , Star from movie M "
-                    result = query_sql(q)
-                    d = {}
-                    for i in result:
-                        if i[0] not in d:
-                            d[i[0]] = [0, 0]
-                            d[i[0]][0] = 1
-                            d[i[0]][1] = i[1]
+                    results = query_sql(q)
+                    dict = {}
+                    for res in results:
+                        if res[0] not in dict:
+                            dict[res[0]] = [0, 0]
+                            dict[res[0]][0] = 1
+                            dict[res[0]][1] = res[1]
                         else:
-                            d[i[0]][0] = d[i[0]][0] + 1
-                            d[i[0]][1] = d[i[0]][1] + i[1]
+                            dict[res[0]][0] = dict[res[0]][0] + 1
+                            dict[res[0]][1] = dict[res[0]][1] + res[1]
 
                     f = go.Bar
                     print(chart)
                     if chart == "pie":
                         f = go.Pie
-                    x = list(d.keys())
-                    y = [d[key][0] for key in d.keys()]
+                    x = list(dict.keys())
+                    y = [dict[key][0] for key in dict.keys()]
 
                     plt = create_plot(x, y, func=f)
                     return render_template(
@@ -134,7 +132,6 @@ def box():
                     x = []
                     y = []
                     for res in result:
-                        print(res)
                         if res[1] != 0:
                             x.append(datetime.strptime(
                                 res[0].split()[0],

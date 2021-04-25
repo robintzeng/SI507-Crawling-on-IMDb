@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from datetime import datetime
 import pandas as pd
+import os
 
 MOVIE_CACHE_FILENAME = "cache_data/movie_cache.json"
 MOVIE_INFO_CACHE_FILENAME = "cache_data/movie_info_cache.json"
@@ -207,6 +208,9 @@ def save_cache(cache_dict, filename):
 
 
 if __name__ == "__main__":
+    if not os.path.exists('cache_data'):
+        os.makedirs('cache_data')
+
     MOVIE_URL_DICT = open_cache(MOVIE_CACHE_FILENAME)
     MOVIE_INFO_DICT = open_cache(MOVIE_INFO_CACHE_FILENAME)
 

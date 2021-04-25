@@ -1,4 +1,4 @@
 *.pdf
 *.sqlite
 cache_data
-sql_test.py
+__pycache__
