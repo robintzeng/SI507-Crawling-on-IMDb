@@ -41,4 +41,4 @@ Second, after selecting the type of information, the users can use the scroll do
 
 For some type of information, the users can also select the way to see the data.
 
-![](images/chart.png)
+![](images/charts.png)
