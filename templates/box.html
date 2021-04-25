@@ -55,7 +55,9 @@
     <div class="col-auto my-1">
     <select class="custom-select" name="chart_type">
         <option value="bar" {% if  chart_status  == "bar"%} selected {% endif %}>Bar</option>
+        {%if type == "budget"%}
         <option value="pie" {% if  chart_status  == "pie"%} selected {% endif %}>Pie</option>
+        {%endif%}
     </select>
     </div>
     <div class="col-auto my-1">

@@ -100,10 +100,17 @@ def rating():
                     q = "Select Date, Star From movie order by Date"
                     result = query_sql(q)
 
-                    x = [datetime.strptime(x[0].split()[0], '%Y-%m-%d')
-                         for x in result]
+                    x = [res[0] for res in result]
                     y = [float(x[1]) for x in result]
-                    f = go.Scatter
+
+                    y = calculate_money_date(x, y)
+                    print(len(y))
+                    x = ['19'+ str(x+2) +'0s' for x in range(8)]
+                    x.append('2000s')
+                    x.append('2010s')
+                    x.append('2020s')
+
+                    f = go.Bar
                     if chart == 'line':
                         f = go.Line
                     plt = create_plot(x, y, func=f)
@@ -158,8 +165,6 @@ def box():
                             y.append(res[2] / res[1])
 
                     f = go.Bar
-                    if chart == "pie":
-                        f = go.Pie
                     plt = create_plot(x, y, func=f)
                     return render_template(
                         "box.html", type="name", selected_status=box_select,
@@ -175,7 +180,6 @@ def box():
                     for res in result:
                         x.append(res[0])
                         y.append(res[1])
-
                     f = go.Bar
                     if chart == "pie":
                         f = go.Pie
@@ -200,6 +204,13 @@ def box():
                     for res in result:
                         x.append(res[0])
                         y.append(res[1])
+
+                    y = calculate_money_date(x, y)
+                    print(len(y))
+                    x = ['19'+ str(x+2) +'0s' for x in range(8)]
+                    x.append('2000s')
+                    x.append('2010s')
+                    x.append('2020s')
                     f = go.Bar
                     if chart == "pie":
                         f = go.Pie

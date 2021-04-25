@@ -3,7 +3,7 @@ import sqlite3
 import plotly
 import pandas as pd
 import json
-
+from datetime import datetime
 
 class Element():
     def __init__(self, director, writer, cast):
@@ -57,3 +57,26 @@ def create_plot(x, y, func):
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
 
     return graphJSON
+
+def calculate_money_date(date, money):
+    d = datetime(1921,1,1,0,0,0,0)
+    ls_acc = [0]*11
+    ls_num = [0]*11
+    for i in range(len(date)):
+        if money[i] == 0:
+            continue
+        else:
+            tmp = datetime.strptime(date[i].split()[0], '%Y-%m-%d')
+            idx = int((tmp - d).days/3650)
+            ls_acc[idx] += money[i]
+            ls_num[idx] += 1
+
+    for i in range(len(ls_acc)):
+        if ls_num[i] == 0:
+            continue
+        else:
+            ls_acc[i] = ls_acc[i] / ls_num[i]
+    return ls_acc
+        
+        
+
