@@ -5,29 +5,40 @@
 {% block content %}
 <h3>Which kind of Box information are you interested in ? </h3>
 <form name="box_name" method="POST">
-    <select name="box_name">
-        <option value="interest">The relationship between time and return of investment of the movie </option>
-        <option value="name">Movie name and return of investment of the movie </option>
-        <option value="budget">Budget</option>
-        <option value="bt">Budget v.s. Time</option>
-        <option value="ut">Us gross v.s. Time</option>
-        <option value="wt">Worldwide Gross v.s. Time</option>    
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="box_name">
+        <option value="interest" {% if  selected_status  == "interest"%} selected {% endif %}>The relationship between time and return of investment of the movie </option>
+        <option value="name"{% if  selected_status  == "name"%} selected {% endif %}>Movie name and return of investment of the movie </option>
+        <option value="budget"{% if  selected_status  == "budget"%} selected {% endif %}>Budget</option>
+        <option value="bt"{% if  selected_status  == "bt"%} selected {% endif %}>Budget v.s. Time</option>
+        <option value="ut"{% if  selected_status  == "ut"%} selected {% endif %}>Us gross v.s. Time</option>
+        <option value="wt"{% if  selected_status  == "wt"%} selected {% endif %}>Worldwide Gross v.s. Time</option>    
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 {%if show == True%}
 
 {%if type == "interest"%}
-<h4> Data: The relationship between time and return of investment of the movie </h4>
 <h5> Please select a type of chart</h5>
 
 <form name="chart_type" method="POST">
-    <select name="chart_type">
-        <option value="bar">Bar</option>
-        <option value="scatter">Scatter</option>
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="chart_type">
+        <option value="bar" {% if  chart_status  == "bar"%} selected {% endif %}>Bar</option>
+        <option value="scatter" {% if  chart_status  == "scatter"%} selected {% endif %}>Scatter</option>
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 <div class="chart" id="bargraph">
@@ -38,19 +49,19 @@
 </div>
 
 {%elif type == "name" or type == "budget"%}
-
-{%if type == "name"%}
-<h4>Data: Movie name and return of investment of the movie</h4>
-{%elif type == "budget"%}
-<h4>Data: Budget</h4>
-{%endif%}
 <h5> Please select a type of chart</h5>
 <form name="chart_type" method="POST">
-    <select name="chart_type">
-        <option value="bar">Bar</option>
-        <option value="pie">Pie</option>
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="chart_type">
+        <option value="bar" {% if  chart_status  == "bar"%} selected {% endif %}>Bar</option>
+        <option value="pie" {% if  chart_status  == "pie"%} selected {% endif %}>Pie</option>
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 <div class="chart" id="bargraph">
@@ -61,23 +72,20 @@
 </div>
 
 {%elif type == "bt" or type =="ut" or type =="wt"%}
-
-{%if type == "bt"%}
-<h4>Data: Budget v.s. Time</h4>
-{%elif type == "ut"%}
-<h4>Data: Us gross v.s. Time</h4>
-{%else%}
-<h4>Data: Worldwide Gross v.s. Time</h4>
-{%endif%}
 <h5> Please select a type of chart</h5>
-
 <form name="chart_type" method="POST">
-    <select name="chart_type">
-        <option value="bar">Bar</option>
-        <option value="pie">Pie</option>
-        <option value="scatter">Scatter</option>
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="chart_type">
+        <option value="bar" {% if  chart_status  == "bar"%} selected {% endif %}>Bar</option>
+        <option value="pie" {% if  chart_status  == "pie"%} selected {% endif %}>Pie</option>
+        <option value="scatter" {% if  chart_status  == "scatter"%} selected {% endif %}>Scatter</option>
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 <div class="chart" id="bargraph">

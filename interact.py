@@ -23,6 +23,7 @@ def movie():
     if request.method == "POST":
         select = request.form.get('movie_name')
         if select is not None:
+            select_st = select
             select = "\""+select + "\""
 
             q = "select Casts from movie M join cast C ON M.MovieID=C.movieID AND M.movie={}".format(
@@ -39,12 +40,11 @@ def movie():
             w = list(set(w))
 
             e = element_wraper(c, d, w)
-            print("DDD")
-            # return redirect(url_for('movie', element=e, name=nm,
-            #                         table=True))
+
+            print(select_st)
             return render_template(
                 "movie.html", element=e, name=nm,
-                table=True)
+                selected_status=select_st, table=True)
 
     return render_template("movie.html", name=nm, table=False)
 
@@ -66,7 +66,8 @@ def rating():
                 date = [i[2].split()[0] for i in ret]
                 e = element_wraper(movie_name, star, date)
                 return render_template(
-                    "rating.html", element=e, type="table", show=True)
+                    "rating.html", element=e, selected_status=rating_select,
+                    type="table", show=True)
             elif rating_select == "star":
                 if request.method == "POST":
                     chart = request.form.get('chart_type')
@@ -91,7 +92,9 @@ def rating():
 
                     plt = create_plot(x, y, func=f)
                     return render_template(
-                        "rating.html", type="star", plot=plt, show=True)
+                        "rating.html", type="star",
+                        selected_status=rating_select, chart_status=chart,
+                        plot=plt, show=True)
 
             elif rating_select == "time":
                 if request.method == "POST":
@@ -107,7 +110,9 @@ def rating():
                         f = go.Line
                     plt = create_plot(x, y, func=f)
                     return render_template(
-                        "rating.html", type="time", plot=plt, show=True)
+                        "rating.html", type="time",
+                        selected_status=rating_select, plot=plt,
+                        chart_status=chart, show=True)
 
     return render_template("rating.html", show=False)
 
@@ -140,7 +145,9 @@ def box():
                         f = go.Scatter
                     plt = create_plot(x, y, func=f)
                     return render_template(
-                        "box.html", type="interest", plot=plt, show=True)
+                        "box.html", type="interest",
+                        selected_status=box_select, chart_status=chart,
+                        plot=plt, show=True)
             elif box_select == "name":
                 if request.method == "POST":
                     chart = request.form.get('chart_type')
@@ -158,7 +165,8 @@ def box():
                         f = go.Pie
                     plt = create_plot(x, y, func=f)
                     return render_template(
-                        "box.html", type="name", plot=plt, show=True)
+                        "box.html", type="name", selected_status=box_select,
+                        chart_status=chart, plot=plt, show=True)
 
             elif box_select == "budget":
                 if request.method == "POST":
@@ -176,7 +184,9 @@ def box():
                         f = go.Pie
                     plt = create_plot(x, y, func=f)
                     return render_template(
-                        "box.html", type=box_select, plot=plt, show=True)
+                        "box.html", type=box_select,
+                        selected_status=box_select, chart_status=chart,
+                        plot=plt, show=True)
 
             elif box_select == "bt" or box_select == "ut" or box_select == "wt":
                 if request.method == "POST":
@@ -200,7 +210,9 @@ def box():
                         f = go.Scatter
                     plt = create_plot(x, y, func=f)
                     return render_template(
-                        "box.html", type=box_select, plot=plt, show=True)
+                        "box.html", type=box_select,
+                        selected_status=box_select, chart_status=chart,
+                        plot=plt, show=True)
     return render_template("box.html", show=False)
 
 

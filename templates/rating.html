@@ -5,56 +5,63 @@
 {% block content %}
 <h3>Which attribute of rating are you interested in ? </h3>
 <form name="rating_name" method="POST">
-    <select name="rating_name">
-        <option value="table">Table</option>
-        <option value="star">The relationship between numbers of movies and genres</option>
-        <option value="time">The relationship between the rating of the movies with time</option>    
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="rating_name">
+        <option value="table" {% if  selected_status  == "table"%} selected {% endif %}>Table</option>
+        <option value="star"  {% if  selected_status  == "star" %} selected {% endif %}>The relationship between numbers of movies and genres</option>
+        <option value="time"  {% if  selected_status  == "time"%} selected {% endif %}>The relationship between the rating of the movies with time</option>    
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 {%if show == True%}
 {%if type == "table"%}
 
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-</style>
 
-<table style="width:100%">
+<table class="table table-striped">
+<thead class="thead-dark"> 
   <tr>
     <th>Name</th>
     <th>Star</th>
     <th>Date</th>
   </tr>
-
+</thead>
+ <tbody>
 {% for e in element %} 
 <tr>
 <td> 
 <p>{{e.c}}</p>
 </td>
 <td> 
-<p>{{e.d}}</p>
+<p>{{e.d}} &#9733;</p>
 </td>
 <td> 
 <p>{{e.w}}</p>
 </td>
 </tr>
 {% endfor%}
-
+ </tbody>
+</table>
 
 
 {%elif type == "star"%}
-<h4> Data: The relationship between numbers of movies and genres</h4>
-<h5> Please select a type of chart</h5>
-
 <form name="chart_type" method="POST">
-    <select name="chart_type">
-        <option value="bar">Bar</option>
-        <option value="pie">Pie</option>
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="chart_type">
+        <option value="bar" {% if  chart_status  == "bar"%} selected {% endif %}>Bar</option>
+        <option value="pie" {% if  chart_status  == "pie"%} selected {% endif %}>Pie</option>
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 <div class="chart" id="bargraph">
@@ -65,15 +72,20 @@ table, th, td {
 </div>
 
 {%elif type == "time"%}
-<h4> Data: The relationship between the rating of the movies with time</h4>
 <h5> Please select a type of chart</h5>
 
 <form name="chart_type" method="POST">
-    <select name="chart_type">
-        <option value="scatter">Scatter</option>
-        <option value="line">Line</option>
+<div class="form-row align-items-center">
+    <div class="col-auto my-1">
+    <select class="custom-select" name="chart_type">
+        <option value="scatter" {% if  chart_status  == "scatter"%} selected {% endif %}>Scatter</option>
+        <option value="line" {% if  chart_status  == "line"%} selected {% endif %}>Line</option>
     </select>
-    <button type="submit">Select!</button>
+    </div>
+    <div class="col-auto my-1">
+    <button class="btn btn-primary" type="submit">Select!</button>
+    </div>
+    </div>
 </form>
 
 <div class="chart" id="bargraph">
